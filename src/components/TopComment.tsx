@@ -7,7 +7,12 @@ import {
   faThumbsUp,
 } from "@fortawesome/free-solid-svg-icons";
 
-const TopComment = () => {
+interface TopCommentProps {
+  username: string;
+  content: string;
+}
+
+const TopComment: React.FC<TopCommentProps> = ({ username, content }) => {
   return (
     <div className="top_comment_container">
       <div className="top_comment_inner_container">
@@ -26,12 +31,7 @@ const TopComment = () => {
             Some readers wanted to add context to this website
           </h3>
         </div>
-        <p className="top_comment_content">
-          Est provident non perspiciatis consequatur accusamus omnis sint omnis.
-          Quos omnis non magni eligendi doloremque error. Dolorem officiis
-          accusamus aut. Deleniti aspernatur ex voluptas. Laboriosam quasi sunt
-          porro mollitia mollitia. Et quam adipisci tempore et.
-        </p>
+        <p className="top_comment_content">{content}</p>
         <div className="top_comment_footer">
           <div className="top_comment_vote_container">
             <div className="top_comment_vote_inner_container">

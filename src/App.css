@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Averia+Serif+Libre:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
 
 .App {
   text-align: center;
@@ -20,4 +21,30 @@
   width: 30rem;
   background-color: white;
   overflow: hidden;
+}
+
+.other_note_divider {
+  width: 85%;
+  text-align: left;
+  font-family: "Inter";
+  font-weight: 700;
+  border-bottom: 5px solid #adadad;
+}
+
+.add_note_button {
+  background-color: #75bdff;
+  color: #003b71;
+  font-family: "Inter";
+  font-weight: 700;
+  font-size: 0.85rem;
+  border: none;
+  padding: 5px 7px 5px 7px;
+  border-radius: 20px;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.add_note_button:hover {
+  background-color: #8ec8ff;
+  cursor: pointer;
 }
