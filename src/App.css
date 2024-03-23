@@ -1,6 +1,19 @@
+@import url("https://fonts.googleapis.com/css2?family=Averia+Serif+Libre:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap");
+
 .App {
-  color: black;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.main_header {
+  color: black;
+  -webkit-text-fill-color: white; /* Will override color (regardless of order) */
+  -webkit-text-stroke-width: 1.4px;
+  -webkit-text-stroke-color: #003b71;
+  font-size: 1.8rem;
+  font-family: "Averia Serif Libre", Arial;
 }
 
 .container {

@@ -1,4 +1,93 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
+
 .top_comment_container {
-  border: 1px solid red;
+  border: 4px solid #4fabff;
+  border-radius: 10px;
+  width: 85%;
   height: fit-content;
+  margin: 0;
+  background-color: #d7ecff;
+}
+
+.top_comment_header {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.top_comment_inner_container {
+  padding: 8px 10px 8px 10px;
+}
+
+.top_comment_header_text {
+  margin: 0;
+  color: #003b71;
+  font-family: "Inter";
+}
+
+.top_comment_content {
+  width: 100%;
+  padding-top: 0.3rem;
+  font-family: "Inter";
+
+  text-align: left;
+  margin: 0;
+}
+
+.top_comment_footer {
+  display: flex;
+  width: 100%;
+  height: fit-content;
+  justify-content: flex-end;
+}
+.top_comment_vote_container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+  background-color: #75bdff;
+  height: fit-content;
+  width: fit-content;
+  margin-top: 0.7rem;
+}
+
+.top_comment_vote_inner_container {
+  padding: 5px 7px 5px 7px;
+  flex-direction: row;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.top_comment_vote_text {
+  font-weight: 600;
+  margin: 0;
+  color: #003b71;
+  font-family: "Inter";
+  font-size: 0.85rem;
+}
+
+.thumbsup {
+  color: white;
+  height: 1.1rem;
+  width: 1.1rem;
+  margin-left: 0.3rem;
+}
+
+.thumbsdown {
+  color: white;
+  height: 1.1rem;
+  width: 1.1rem;
+  margin-left: 0.3rem;
+}
+
+.thumbsup:hover {
+  color: #1081ea;
+  cursor: pointer;
+}
+
+.thumbsdown:hover {
+  color: #1081ea;
+  cursor: pointer;
 }
