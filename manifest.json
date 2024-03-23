@@ -1,0 +1,10 @@
+{
+    "version": "1.0.0",
+    "manifest_version": 3,
+    "name": "World Wide Web Community Notes",
+    "description": "This extension adds notes and context to websites to ensure transparency and combat misinformation.",
+    "action": {
+        "default_popup": "js/index.html",
+        "default_title": "WWW Community Notes"
+    }
+}
