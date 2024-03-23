@@ -14,11 +14,7 @@ function App() {
 
   return (
     <div className="App">
-      <h1>WWW Community Notes</h1>
-      <TopComment />
-      <TopComment />
-      <TopComment />
-      <TopComment />
+      <h1 className="main_header">WWW Community Notes</h1>
       <TopComment />
     </div>
   );
