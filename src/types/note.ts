@@ -1,4 +1,4 @@
-interface Vote {
+export interface Vote {
   userID: string,
   voteCount: number // -1 or +1
 }
