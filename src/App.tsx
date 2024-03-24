@@ -21,6 +21,20 @@ const App = () => {
   const [range, setRange] = React.useState(1);
   const [writing, setWriting] = React.useState(false);
   const [noteData, setNoteData] = React.useState(Array<NoteData>)
+  const [noteBody, setNoteBody] = React.useState('')
+
+  const handleNewNote = () => {
+    chrome.tabs.query({ active: true, lastFocusedWindow: true }, (tabs) => {
+      let url = '';
+      if (tabs[0].url !== undefined) {
+        url = tabs[0].url;
+        url = url.replace(/\//g, '-') // because fs will not name a collection (which are named after our urls) with a '/', we replace all of these characters with '-'
+      }
+      createNote(url, 'anon', noteBody)
+      setWriting(false)
+      setNoteBody('')
+    });
+  }
 
   useEffect(() => {
     chrome.tabs.query({ active: true, lastFocusedWindow: true }, async (tabs) => {
@@ -40,7 +54,7 @@ const App = () => {
       setNoteData(data)
     });
     console.log("noteData", noteData);
-  }, []);
+  }, [writing]);
 
   return (
     <div className="App">
@@ -66,8 +80,8 @@ const App = () => {
       ) : null}
       {writing ? (
         <div className="write_note_div">
-          <textarea className="write_note_textarea" />
-          <button className="submit_note_button">Submit</button>
+          <textarea onChange={(e) => {setNoteBody(e.target.value)}} className="write_note_textarea" />
+          <button onClick={() => handleNewNote()} className="submit_note_button">Submit</button>
         </div>
       ) : (
         <button onClick={() => setWriting(true)} className="add_note_button">Add your own thoughts</button>
