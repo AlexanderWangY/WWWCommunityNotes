@@ -20,8 +20,9 @@ const App = () => {
   const [topNote, setTopNote] = React.useState<NoteData>();
   const [range, setRange] = React.useState(1);
   const [writing, setWriting] = React.useState(false);
-  const [noteData, setNoteData] = React.useState(Array<NoteData>)
-  const [noteBody, setNoteBody] = React.useState('')
+  const [noteData, setNoteData] = React.useState(Array<NoteData>);
+  const [noteBody, setNoteBody] = React.useState('');
+  const [siteUrl, setSiteUrl] = React.useState('');
 
   const handleNewNote = () => {
     chrome.tabs.query({ active: true, lastFocusedWindow: true }, (tabs) => {
@@ -45,6 +46,7 @@ const App = () => {
       }
       console.log('url:', url);
       const data = await getNotes(url)
+      setSiteUrl(url)
       // createNote(url);
       if (data === undefined) throw new Error('No data available')
       console.log("data", data)
@@ -72,6 +74,7 @@ const App = () => {
             key={note.userID}
             username={note.userID}
             content={note.noteContent}
+            url={siteUrl}
           />
         );
       })}
