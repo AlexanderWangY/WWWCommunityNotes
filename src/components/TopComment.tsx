@@ -6,13 +6,36 @@ import {
   faThumbsDown,
   faThumbsUp,
 } from "@fortawesome/free-solid-svg-icons";
+import { retrieveUser } from "../utilities/localstorage";
+import { createVote } from "../actions/createVote";
 
 interface TopCommentProps {
   username: string;
   content: string;
+  url: string;
+  index: string;
+  reload: any;
 }
 
-const TopComment: React.FC<TopCommentProps> = ({ username, content }) => {
+const TopComment: React.FC<TopCommentProps> = ({
+  username,
+  content,
+  url,
+  index,
+  reload,
+}) => {
+  const handleUpvote = async (url: string) => {
+    const uid = retrieveUser().uid;
+    await createVote(url, uid, username, 1);
+    reload();
+  };
+
+  const handleDownvote = async (url: string) => {
+    const uid = retrieveUser().uid;
+    await createVote(url, uid, username, -1);
+    reload();
+  };
+
   return (
     <div className="top_comment_container">
       <div className="top_comment_inner_container">
@@ -36,8 +59,16 @@ const TopComment: React.FC<TopCommentProps> = ({ username, content }) => {
           <div className="top_comment_vote_container">
             <div className="top_comment_vote_inner_container">
               <p className="top_comment_vote_text">Rate this note</p>
-              <FontAwesomeIcon icon={faThumbsUp} className="thumbsup" />
-              <FontAwesomeIcon icon={faThumbsDown} className="thumbsdown" />
+              <FontAwesomeIcon
+                icon={faThumbsUp}
+                className="thumbsup"
+                onClick={() => handleUpvote(url)}
+              />
+              <FontAwesomeIcon
+                icon={faThumbsDown}
+                className="thumbsdown"
+                onClick={() => handleDownvote(url)}
+              />
             </div>
           </div>
         </div>
