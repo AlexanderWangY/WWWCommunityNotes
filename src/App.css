@@ -50,9 +50,9 @@
 }
 
 .render_more_button {
-  margin-top: -.5rem;
-  margin-bottom: .3rem;
-  font-family: 'Inter';
+  margin-top: -0.5rem;
+  margin-bottom: 0.3rem;
+  font-family: "Inter";
   font-weight: 700;
   font-size: 0.85rem;
 }
@@ -67,33 +67,50 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-
 }
 
 .write_note_textarea {
   width: 85%;
   height: 7rem;
-  font-family: 'Inter';
+  font-family: "Inter";
   font-weight: 400;
-  font-size: .9rem;
-  padding-top: .5rem;
+  font-size: 0.9rem;
+  padding-top: 0.5rem;
   resize: none;
 }
 
 .submit_note_button {
   background-color: #75bdff;
   color: #003b71;
-  font-family: 'Inter';
+  font-family: "Inter";
   font-weight: 700;
-  font-size: .85rem;
+  font-size: 0.85rem;
   border: none;
   padding: 5px 7px 5px 7px;
   border-radius: 20px;
-  margin-top: .8rem;
-  margin-bottom: .8rem;
+  margin-top: 0.8rem;
+  margin-bottom: 0.8rem;
 }
 
 .submit_note_button:hover {
+  background-color: #8ec8ff;
+  cursor: pointer;
+}
+
+.signin_button {
+  background-color: #75bdff;
+  color: #003b71;
+  font-family: "Inter";
+  font-weight: 700;
+  font-size: 0.85rem;
+  border: none;
+  padding: 5px 7px 5px 7px;
+  border-radius: 20px;
+  margin-top: 0.8rem;
+  margin-bottom: 0.8rem;
+}
+
+.signin_button:hover {
   background-color: #8ec8ff;
   cursor: pointer;
 }

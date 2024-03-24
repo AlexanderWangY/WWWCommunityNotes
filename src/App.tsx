@@ -7,6 +7,8 @@ import { getNotes } from "./actions/getNotes";
 import { createNote } from "./actions/createNote";
 import NormalComment from "./components/NormalComment";
 import { Note } from "./types/note";
+import { signinlogin } from "./utilities/firebaseInit";
+import { loginUser, retrieveUser } from "./utilities/localstorage";
 // import { fakeData } from "./test";
 
 interface NoteData {
@@ -20,36 +22,50 @@ const App = () => {
   const [topNote, setTopNote] = React.useState<NoteData>();
   const [range, setRange] = React.useState(1);
   const [writing, setWriting] = React.useState(false);
-  const [noteData, setNoteData] = React.useState(Array<NoteData>)
+  const [noteData, setNoteData] = React.useState(Array<NoteData>);
+  const [loggedin, setLoggedin] = React.useState(false);
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
+
+  const handleLogIn = async () => {
+    const user = await signinlogin(email, password);
+    loginUser(user);
+    setLoggedin(true);
+  };
 
   useEffect(() => {
-    chrome.tabs.query({ active: true, lastFocusedWindow: true }, async (tabs) => {
-      let url = '';
-      if (tabs[0].url !== undefined) {
-        url = tabs[0].url;
-        url = url.replace(/\//g, '-') // because fs will not name a collection (which are named after our urls) with a '/', we replace all of these characters with '-'
+    chrome.tabs.query(
+      { active: true, lastFocusedWindow: true },
+      async (tabs) => {
+        let url = "";
+        if (tabs[0].url !== undefined) {
+          url = tabs[0].url;
+          url = url.replace(/\//g, "-"); // because fs will not name a collection (which are named after our urls) with a '/', we replace all of these characters with '-'
+        }
+        console.log("url:", url);
+        const data = await getNotes(url);
+        // createNote(url);
+        if (data === undefined) throw new Error("No data available");
+        console.log("data", data);
+        data.sort((a: Note, b: Note) => b.votes - a.votes);
+        setTopNote(data[0]);
+        setRange(5);
+        setNoteData(data);
       }
-      console.log('url:', url);
-      const data = await getNotes(url)
-      // createNote(url);
-      if (data === undefined) throw new Error('No data available')
-      console.log("data", data)
-      data.sort((a: Note, b: Note) => b.votes - a.votes);
-      setTopNote(data[0]);
-      setRange(5);
-      setNoteData(data)
-    });
+    );
     console.log("noteData", noteData);
+
+    const user = retrieveUser();
+    if (user) {
+      setLoggedin(true);
+    }
   }, []);
 
   return (
     <div className="App">
       <h1 className="main_header">WWW Community Notes</h1>
       {topNote && (
-        <TopComment
-          username={topNote.userID}
-          content={topNote.noteContent}
-        />
+        <TopComment username={topNote.userID} content={topNote.noteContent} />
       )}
       <h2 className="other_note_divider">Other notes</h2>
       {noteData.slice(1, range).map((note) => {
@@ -61,19 +77,64 @@ const App = () => {
           />
         );
       })}
-      { range < noteData.length ? (
-        <a className="render_more_button" onClick={() => setRange(range + 3)}>Click to render more</a>
+      {range < noteData.length ? (
+        <a className="render_more_button" onClick={() => setRange(range + 3)}>
+          Click to render more
+        </a>
       ) : null}
-      {writing ? (
-        <div className="write_note_div">
-          <textarea className="write_note_textarea" />
-          <button className="submit_note_button">Submit</button>
-        </div>
+      {loggedin ? (
+        writing ? (
+          // If logged in and writing
+          <div className="write_note_div">
+            <textarea className="write_note_textarea" />
+            <button className="submit_note_button">Submit</button>
+          </div>
+        ) : (
+          // If logged in but not writing
+          <button
+            onClick={() => {
+              setWriting(true);
+            }}
+            className="add_note_button"
+          >
+            Add your own thoughts
+          </button>
+        )
       ) : (
-        <button onClick={() => setWriting(true)} className="add_note_button">Add your own thoughts</button>
+        // If not logged in
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <textarea
+            style={{
+              height: "1rem",
+            }}
+            placeholder="Enter email..."
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
+          />
+          <textarea
+            style={{
+              height: "1rem",
+              marginTop: ".8rem",
+            }}
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
+            placeholder="Enter password"
+            hidden={true}
+          />
+          <button onClick={handleLogIn} className="signin_button">
+            Sign up/Log in to add notes
+          </button>
+        </div>
       )}
     </div>
   );
-}
+};
 
 export default App;
