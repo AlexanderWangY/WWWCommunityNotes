@@ -4,8 +4,9 @@ import { db } from '../utilities/firebaseInit'
 
 export const createNote = async (url: string) => {
   const data: Note = {
-    body: '',
-    author: '',
+    userID: '',
+    noteContent: '',
+    votes: 0,
     voters: []
   }
   const newNoteRef = doc(collection(db, url))

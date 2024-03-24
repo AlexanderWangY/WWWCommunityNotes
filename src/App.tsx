@@ -6,7 +6,8 @@ import TopComment from "./components/TopComment";
 import { getNotes } from "./actions/getNotes";
 import { createNote } from "./actions/createNote";
 import NormalComment from "./components/NormalComment";
-import { fakeData } from "./test";
+import { Note } from "./types/note";
+// import { fakeData } from "./test";
 
 interface NoteData {
   userID: string;
@@ -15,16 +16,30 @@ interface NoteData {
   voters: { userID: string; voteCount: number }[];
 }
 
-
 const App = () => {
   const [topNote, setTopNote] = React.useState<NoteData>();
   const [range, setRange] = React.useState(1);
   const [writing, setWriting] = React.useState(false);
+  const [noteData, setNoteData] = React.useState(Array<NoteData>)
 
   useEffect(() => {
-    fakeData.sort((a, b) => b.votes - a.votes);
-    setTopNote(fakeData[0]);
-    setRange(5);
+    chrome.tabs.query({ active: true, lastFocusedWindow: true }, async (tabs) => {
+      let url = '';
+      if (tabs[0].url !== undefined) {
+        url = tabs[0].url;
+        url = url.replace(/\//g, '-') // because fs will not name a collection (which are named after our urls) with a '/', we replace all of these characters with '-'
+      }
+      console.log('url:', url);
+      const data = await getNotes(url)
+      // createNote(url);
+      if (data === undefined) throw new Error('No data available')
+      console.log("data", data)
+      data.sort((a: Note, b: Note) => b.votes - a.votes);
+      setTopNote(data[0]);
+      setRange(5);
+      setNoteData(data)
+    });
+    console.log("noteData", noteData);
   }, []);
 
   return (
@@ -37,7 +52,7 @@ const App = () => {
         />
       )}
       <h2 className="other_note_divider">Other notes</h2>
-      {fakeData.slice(1, range).map((note) => {
+      {noteData.slice(1, range).map((note) => {
         return (
           <NormalComment
             key={note.userID}
@@ -46,7 +61,7 @@ const App = () => {
           />
         );
       })}
-      { range < fakeData.length ? (
+      { range < noteData.length ? (
         <a className="render_more_button" onClick={() => setRange(range + 3)}>Click to render more</a>
       ) : null}
       {writing ? (

@@ -6,12 +6,11 @@ export const getNotes = async (url: string) => {
   try {
     if (url === '' || url === undefined) throw new Error('Error: impossible URL')
     
-    const noteData: Array<Note> = []
+    const noteData: any = []
     const noteRefs = await getDocs(collection(db, url));
     noteRefs.forEach((note) => {
-      console.log(typeof note.data());
       console.log(note.data())
-      // noteData.push()
+      noteData.push(note.data())
     });
     return noteData;
   } catch (e) {
